@@ -10,3 +10,15 @@ If you run ROS nodes in Docker and want to connect your nodes with other nodes r
 
 In this example I will show you how to connect ROS nodes running in different Docker networks on the same host, and over the Internet.
 
+## Debugging
+
+```
+docker run --rm -it \
+-p 9000:9000 \
+-p 9443:9443 \
+-v /var/run/docker.sock:/var/run/docker.sock \
+-v portainer_data:/data \
+portainer/portainer-ce:latest
+```
+
+https://localhost:9443

@@ -1,0 +1,18 @@
+version: "2.3"
+
+services:
+  # ROS 1 listener
+  listener:
+    build: .
+    restart: on-failure
+    environment:
+      - "ROS_MASTER_URI=http://192.168.0.65:11311"
+    command: rosrun roscpp_tutorials listener
+    expose:
+      - "1-65535"
+    networks:
+       - myipvlan
+       
+networks:
+  myipvlan:
+    external: true

@@ -1,0 +1,35 @@
+version: "2.3"
+
+services:
+  # ROS Master
+  ros-master:
+    image: ros:noetic-ros-core
+    restart: on-failure
+    command: stdbuf -o L roscore
+    # network_mode: host
+    ports:
+      - "11311:11311"
+    networks:
+       - myipvlan
+
+  # ROS 1 talker
+  talker:
+    build: .
+    restart: on-failure
+    environment:
+      - "ROS_MASTER_URI=http://ros-master:11311"
+    command: rosrun roscpp_tutorials talker
+    networks:
+       - myipvlan
+
+# docker network create \
+# -d ipvlan \
+# --subnet 192.168.0.0/24 \
+# --gateway 192.168.0.1 \
+# --ip-range 192.168.0.64/28 \
+# -o parent=wlp0s20f3 \
+# myipvlan
+
+networks:
+  myipvlan:
+    external: true
